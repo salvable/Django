@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     'polls'
 ]
 
+POLLS = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'polls.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
