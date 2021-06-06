@@ -19,6 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('polls/', include('polls.urls'), name='polls')
+    path('/', include('api_graph.urls'), name='api_graph')
 
 ]
