@@ -5,4 +5,4 @@ from .models import Stork
 class StorkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stork
-        fields = ['no', 'name']
+        fields = ['stork_id', 'name']

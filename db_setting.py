@@ -3,7 +3,7 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_stork',
+        'NAME': 'craw',
         'USER': os.environ.get("DB_USERNAME"),
         'PASSWORD': os.environ.get("DB_PASSWORD"),
         'HOST': os.environ.get("DB_HOST"),
