@@ -21,6 +21,6 @@ def addStorks(request):
 
     # 에러에 대한 예외처리는 생략
     except:
-        print("error")
+        return HttpResponse("ERROR")
 
     return HttpResponse("Success")
