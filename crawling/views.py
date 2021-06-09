@@ -1,13 +1,26 @@
 #views.py
 from django.http import HttpResponse
-import pandas as pd
-
+import openpyxl
+from .models import Stork
 
 def addStorks(request):
-    stork_df = pd.read_csv('stork_List.xls')
-    name = stork_df['회사명']
-    number = stork_df['종목코드']
+    filename = 'stork.xlsx'
+    book = openpyxl.load_workbook(filename)
+    sheet = book.worksheets[0]
 
-    print(name)
-    print(number)
-    return HttpResponse("Hello, world. Crawling Test." + "number = ")
+    data = []
+    for row in sheet.rows:
+        data.append([row[0].value, row[1].value])
+
+    length = len(data)
+
+    try:
+       for i in range(length-1):
+           stork = Stork(stork_id=data[i+1][1], name=data[i+1][0])
+           stork.save()
+
+    # 에러에 대한 예외처리는 생략
+    except:
+        print("error")
+
+    return HttpResponse("Success")
