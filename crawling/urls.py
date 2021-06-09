@@ -7,5 +7,5 @@ from django.urls import path
 from crawling import views
 
 urlpatterns = [
-    path('<str:string>/', views.crawling)
+    path('addStorks/', views.addStorks)
 ]
