@@ -1,5 +1,5 @@
 #views.py
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import openpyxl
 from .models import Stork
 from bs4 import BeautifulSoup
@@ -33,6 +33,9 @@ def getPrice(request, name):
 
     #쿼리로 가져오는 값은 dictionary 형식
     query = Stork.objects.filter(name=name)
+    if len(query.values()) == 0:
+        return HttpResponse("Not Found Error")
+
     data = query.values()[0]
 
     crawling_id = data['stork_id']
@@ -43,9 +46,8 @@ def getPrice(request, name):
     bs_obj = BeautifulSoup(result.content, "html.parser")
     no_today = bs_obj.find("p", {"class": "no_today"})
     blind = no_today.find("span", {"class": "blind"})
-    print(blind)
     now_price = blind.text
 
-    print(now_price)
-
-    return HttpResponse("Success")
+    return JsonResponse({
+        'price': now_price
+    })
