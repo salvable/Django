@@ -45,9 +45,15 @@ def getPrice(request, name):
 
     bs_obj = BeautifulSoup(result.content, "html.parser")
     no_today = bs_obj.find("p", {"class": "no_today"})
-    blind = no_today.find("span", {"class": "blind"})
-    now_price = blind.text
+    no_exday = bs_obj.find("p", {"class": "no_exday"})
+
+    price_blind = no_today.find("span", {"class": "blind"})
+    variance_blind = no_exday.find("span", {"class": "blind"})
+
+    now_price = price_blind.text
+    variance = variance_blind.text
 
     return JsonResponse({
-        'price': now_price
+        'price': now_price,
+        'variance': variance,
     })
