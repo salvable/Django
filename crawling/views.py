@@ -29,7 +29,7 @@ def addStorks(request):
 
     return HttpResponse("Success")
 
-def getStork(request, name):
+def getPrice(request, name):
 
     #쿼리로 가져오는 값은 dictionary 형식
     query = Stork.objects.filter(name=name)
