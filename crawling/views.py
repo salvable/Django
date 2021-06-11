@@ -56,5 +56,10 @@ def getPrice(request, name):
     return JsonResponse({
         'price': now_price,
         'variance': variance,
-    })def getSiseUpper(request):
+    })
+
+def getSiseUpper(request):
     return HttpResponse("SizeUpper")
+
+def getSiseLower(request):
+    return HttpResponse("SizeLower")
