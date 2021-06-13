@@ -29,6 +29,18 @@ def addStorks(request):
 
     return HttpResponse("Success")
 
+def getStorks(request):
+    query = Stork.objects.all()
+
+    data = []
+
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    return JsonResponse({
+        'storks': data
+    })
+
 def getPrice(request, name):
 
     #쿼리로 가져오는 값은 dictionary 형식
@@ -53,6 +65,7 @@ def getPrice(request, name):
     now_price = price_blind.text
     variance = variance_blind.text
 
+    #Todo 상승 또는 하락의 기호또는 텍스트를 가져와야 함
     return JsonResponse({
         'price': now_price,
         'variance': variance,
