@@ -1,4 +1,5 @@
 #views.py
+#-*-coding:utf-8 -*-
 from django.http import HttpResponse, JsonResponse
 import openpyxl
 from .models import Stork
@@ -73,14 +74,19 @@ def getPrice(request, name):
     price_blind = no_today.find("span", {"class": "blind"})
     variance_blind = no_exday.find("span", {"class": "blind"})
 
+    # 상승 or 하락을 가져오는 소스
+    variance_em = no_exday.find("em")
+    variance_span = variance_em.find("span")
+
     now_price = price_blind.text
     variance = variance_blind.text
+    variance_sign = variance_span.text
 
-    #Todo 상승 또는 하락의 기호또는 텍스트를 가져와야 함
+    # json_dumps_params => 한글의 깨짐 방지
     return JsonResponse({
         'price': now_price,
-        'variance': variance,
-    })
+        'variance': variance + "원 " + variance_sign
+    }, json_dumps_params={'ensure_ascii': False})
 
 def getSiseUpper(request):
     return HttpResponse("SizeUpper")
