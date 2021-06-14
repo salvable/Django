@@ -9,7 +9,10 @@ from crawling import views
 urlpatterns = [
     # addStorks는 DB에 .xlsx 정보를 가져오기위해 최초 한번만 실행할 것
     path('addStorks/', views.addStorks),
+    # 목록들 가져오기
     path('getStorks/', views.getStorks),
+    # 이름으로 해당되는 목록들 가져오기
+    path('getStorks/<str:name>', views.getStorksByName),
     # 종목 이름으로 크롤링하여 가격 가져오기
     path('stork/<str:name>', views.getPrice),
     # 상한가 크롤링
