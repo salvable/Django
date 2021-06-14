@@ -41,6 +41,17 @@ def getStorks(request):
         'storks': data
     })
 
+def getStorksByName(request,name):
+    query = Stork.objects.filter(name__icontains=name)
+
+    data = []
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    return JsonResponse({
+        'storks': data
+    })
+
 def getPrice(request, name):
 
     #쿼리로 가져오는 값은 dictionary 형식
