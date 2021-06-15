@@ -100,4 +100,13 @@ def getSiseUpper(request):
     return HttpResponse("SizeUpper")
 
 def getSiseLower(request):
+    url = "https://finance.naver.com/sise/sise_lower.nhn"
+
+    result = requests.get(url)
+
+    bs_obj = BeautifulSoup(result.content, "html.parser")
+
+    print(bs_obj)
+
+
     return HttpResponse("SizeLower")
