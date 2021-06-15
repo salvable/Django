@@ -89,6 +89,14 @@ def getPrice(request, name):
     }, json_dumps_params={'ensure_ascii': False})
 
 def getSiseUpper(request):
+    url = "https://finance.naver.com/sise/sise_upper.nhn"
+
+    result = requests.get(url)
+
+    bs_obj = BeautifulSoup(result.content, "html.parser")
+
+    print(bs_obj)
+
     return HttpResponse("SizeUpper")
 
 def getSiseLower(request):
