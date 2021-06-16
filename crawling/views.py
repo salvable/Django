@@ -4,9 +4,8 @@ from django.http import HttpResponse, JsonResponse
 import openpyxl
 from .models import Stork
 from bs4 import BeautifulSoup
-from datetime import datetime
 import requests
-import time
+import pandas as pd
 
 def addStorks(request):
     filename = 'stork.xlsx'
@@ -89,24 +88,65 @@ def getPrice(request, name):
     }, json_dumps_params={'ensure_ascii': False})
 
 def getSiseUpper(request):
-    url = "https://finance.naver.com/sise/sise_upper.nhn"
+    html = requests.get('https://finance.naver.com/sise/sise_upper.nhn')
 
-    result = requests.get(url)
+    df_kospi_data = []
+    df_kosdak_data = []
 
-    bs_obj = BeautifulSoup(result.content, "html.parser")
+    table = pd.read_html(html.text)
+    df_kospi = table[1]
+    df_kospi = df_kospi[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    # df1 = pd.merge(df1, df_code, how='left', on='종목명')
+    if df_kospi.size == 0:
+        print("없습니다.")
+    else:
+        for i in range(len(df_kospi)):
+            df_kospi_data.append([df_kospi.loc[i+1][0], df_kospi.loc[i+1][1], df_kospi.loc[i+1][2], df_kospi.loc[i+1][3], df_kospi.loc[i+1][4]])
 
-    print(bs_obj)
+    df_kosdak = table[2]
+    df_kosdak = df_kosdak[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    # df2 = pd.merge(df2, df_code, how='left', on='종목명')
+    if df_kosdak.size == 0:
+        print("없습니다.")
+    else:
+        for i in range(len(df_kosdak)):
+            df_kosdak_data.append([df_kosdak.loc[i+1][0], df_kosdak.loc[i+1][1], df_kosdak.loc[i+1][2], df_kosdak.loc[i+1][3], df_kosdak.loc[i+1][4]])
 
-    return HttpResponse("SizeUpper")
+    return JsonResponse({
+        'kospi': df_kospi_data,
+        'kosdak': df_kosdak_data
+    }, json_dumps_params={'ensure_ascii': False})
 
 def getSiseLower(request):
-    url = "https://finance.naver.com/sise/sise_lower.nhn"
+    html = requests.get('https://finance.naver.com/sise/sise_lower.nhn')
 
-    result = requests.get(url)
+    df_kospi_data = []
+    df_kosdak_data = []
 
-    bs_obj = BeautifulSoup(result.content, "html.parser")
+    table = pd.read_html(html.text)
+    df_kospi = table[1]
+    df_kospi = df_kospi[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    # df1 = pd.merge(df1, df_code, how='left', on='종목명')
+    if df_kospi.size == 0:
+        print("없습니다.")
+    else:
+        for i in range(len(df_kospi)):
+            df_kospi_data.append(
+                [df_kospi.loc[i + 1][0], df_kospi.loc[i + 1][1], df_kospi.loc[i + 1][2], df_kospi.loc[i + 1][3],
+                 df_kospi.loc[i + 1][4]])
 
-    print(bs_obj)
+    df_kosdak = table[2]
+    df_kosdak = df_kosdak[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    # df2 = pd.merge(df2, df_code, how='left', on='종목명')
+    if df_kosdak.size == 0:
+        print("없습니다.")
+    else:
+        for i in range(len(df_kosdak)):
+            df_kosdak_data.append(
+                [df_kosdak.loc[i + 1][0], df_kosdak.loc[i + 1][1], df_kosdak.loc[i + 1][2], df_kosdak.loc[i + 1][3],
+                 df_kosdak.loc[i + 1][4]])
 
-
-    return HttpResponse("SizeLower")
+    return JsonResponse({
+        'kospi': df_kospi_data,
+        'kosdak': df_kosdak_data
+    }, json_dumps_params={'ensure_ascii': False})
