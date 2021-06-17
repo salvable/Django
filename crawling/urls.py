@@ -18,5 +18,7 @@ urlpatterns = [
     # 상한가 크롤링
     path('stork/sise/sise_upper', views.getSiseUpper),
     # 하한가 크롤링
-    path('stork/sise/sise_lower', views.getSiseLower)
+    path('stork/sise/sise_lower', views.getSiseLower),
+    # addBitcoin은 upbit api 를 이용하여 가져온 모든 코인 정보를 DB에 저장하기 위해 최초 한번 실행, 이후 주석처리
+    path('bitCoin/', views.addBitcoin)
 ]
