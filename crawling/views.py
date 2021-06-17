@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 import json
+from django.db import transaction
 
 def addStorks(request):
     filename = 'stork.xlsx'
@@ -21,12 +22,16 @@ def addStorks(request):
     length = len(data)
 
     try:
-       for i in range(length-1):
+        sid = transaction.savepoint()
+
+        for i in range(length-1):
            stork = Stork(stork_id=data[i+1][1], name=data[i+1][0])
            stork.save()
 
     # 에러에 대한 예외처리는 생략
     except:
+        # 하나라도 에러가 있다면 rollback
+        transaction.savepoint_rollback(sid)
         return HttpResponse("ERROR")
 
     return HttpResponse("Success")
@@ -165,12 +170,15 @@ def addBitcoin(request):
     data = response.json()
 
     try:
+        sid = transaction.savepoint()
+
         for i in range(len(response.json())):
            bitCoin = Bitcoin(market=data[i]['market'], name=data[i]['korean_name'], eng_name=data[i]['english_name'])
            bitCoin.save()
 
     # 에러에 대한 예외처리는 생략
     except:
+        transaction.savepoint_rollback(sid)
         return HttpResponse("ERROR")
 
     return HttpResponse("Success")
