@@ -7,8 +7,8 @@ from django.urls import path
 from crawling import views
 
 urlpatterns = [
-    # addStorks는 DB에 .xlsx 정보를 가져오기위해 최초 한번만 실행할 것
-    path('addStorks/', views.addStorks),
+    # addStorks는 DB에 .xlsx 정보를 가져오기위해 최초 한번만 실행할 것, 실행 후에는 주석처리
+    # path('addStorks/', views.addStorks),
     # 목록들 가져오기
     path('getStorks/', views.getStorks),
     # 이름으로 해당되는 목록들 가져오기
