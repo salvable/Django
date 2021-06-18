@@ -3,7 +3,7 @@
 from django.http import HttpResponse, JsonResponse
 import openpyxl
 from .models import Stork
-from .models import Bitcoin
+# from .models import Bitcoin
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
@@ -158,27 +158,27 @@ def getSiseLower(request):
         'kosdak': df_kosdak_data
     }, json_dumps_params={'ensure_ascii': False})
 
-def addBitcoin(request):
-    url = "https://api.upbit.com/v1/market/all"
-
-    querystring = {"isDetails": "false"}
-
-    headers = {"Accept": "application/json"}
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    data = response.json()
-
-    try:
-        sid = transaction.savepoint()
-
-        for i in range(len(response.json())):
-           bitCoin = Bitcoin(market=data[i]['market'], name=data[i]['korean_name'], eng_name=data[i]['english_name'])
-           bitCoin.save()
-
-    # 에러에 대한 예외처리는 생략
-    except:
-        transaction.savepoint_rollback(sid)
-        return HttpResponse("ERROR")
-
-    return HttpResponse("Success")
+# def addBitcoin(request):
+#     url = "https://api.upbit.com/v1/market/all"
+#
+#     querystring = {"isDetails": "false"}
+#
+#     headers = {"Accept": "application/json"}
+#
+#     response = requests.request("GET", url, headers=headers, params=querystring)
+#
+#     data = response.json()
+#
+#     try:
+#         sid = transaction.savepoint()
+#
+#         for i in range(len(response.json())):
+#            bitCoin = Bitcoin(market=data[i]['market'], name=data[i]['korean_name'], eng_name=data[i]['english_name'])
+#            bitCoin.save()
+#
+#     # 에러에 대한 예외처리는 생략
+#     except:
+#         transaction.savepoint_rollback(sid)
+#         return HttpResponse("ERROR")
+#
+#     return HttpResponse("Success")

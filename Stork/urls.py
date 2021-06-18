@@ -19,6 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('crawling/', include('crawling.urls'), name='crawling')
-
+    path('crawling/', include('crawling.urls'), name='crawling'),
+    path('api_bit/', include('api_bit.urls'), name='api_bit')
 ]
