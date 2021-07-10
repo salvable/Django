@@ -14,6 +14,6 @@ urlpatterns = [
     path('stork/<str:name>', views.getPrice),
     # 상한가 크롤링
     path('stork/sise/sise_upper', views.getSiseUpper),
-    # 하한가 크롤링
+    # 하한가
     path('stork/sise/sise_lower', views.getSiseLower),
 ]
