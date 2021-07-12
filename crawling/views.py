@@ -101,22 +101,22 @@ def getSiseUpper(request):
 
     table = pd.read_html(html.text)
     df_kospi = table[1]
-    df_kospi = df_kospi[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    df_kospi = df_kospi[['종목명', '현재가', '전일비', '등락률']].dropna()
     # df1 = pd.merge(df1, df_code, how='left', on='종목명')
     if df_kospi.size == 0:
         print("없습니다.")
     else:
         for i in range(len(df_kospi)):
-            df_kospi_data.append([df_kospi.loc[i+1][0], df_kospi.loc[i+1][1], df_kospi.loc[i+1][2], df_kospi.loc[i+1][3], df_kospi.loc[i+1][4]])
+            df_kospi_data.append([df_kospi.loc[i+1][0], df_kospi.loc[i+1][1], df_kospi.loc[i+1][2], df_kospi.loc[i+1][3]])
 
     df_kosdak = table[2]
-    df_kosdak = df_kosdak[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    df_kosdak = df_kosdak[['종목명', '현재가', '전일비', '등락률']].dropna()
     # df2 = pd.merge(df2, df_code, how='left', on='종목명')
     if df_kosdak.size == 0:
         print("없습니다.")
     else:
         for i in range(len(df_kosdak)):
-            df_kosdak_data.append([df_kosdak.loc[i+1][0], df_kosdak.loc[i+1][1], df_kosdak.loc[i+1][2], df_kosdak.loc[i+1][3], df_kosdak.loc[i+1][4]])
+            df_kosdak_data.append([df_kosdak.loc[i+1][0], df_kosdak.loc[i+1][1], df_kosdak.loc[i+1][2], df_kosdak.loc[i+1][3]])
 
     return JsonResponse({
         'kospi': df_kospi_data,
@@ -131,7 +131,7 @@ def getSiseLower(request):
 
     table = pd.read_html(html.text)
     df_kospi = table[1]
-    df_kospi = df_kospi[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    df_kospi = df_kospi[['종목명', '현재가', '전일비', '등락률']].dropna()
     # df1 = pd.merge(df1, df_code, how='left', on='종목명')
     if df_kospi.size == 0:
         print("없습니다.")
@@ -142,7 +142,7 @@ def getSiseLower(request):
                  df_kospi.loc[i + 1][4]])
 
     df_kosdak = table[2]
-    df_kosdak = df_kosdak[['종목명', '연속', '누적', '현재가', '전일비', '거래량', '저가']].dropna()
+    df_kosdak = df_kosdak[['종목명', '현재가', '전일비', '등락률']].dropna()
     # df2 = pd.merge(df2, df_code, how='left', on='종목명')
     if df_kosdak.size == 0:
         print("없습니다.")
