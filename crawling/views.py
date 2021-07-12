@@ -175,3 +175,21 @@ def getSiseQuant(request):
     return JsonResponse({
         'kospi': df_kospi_data
     }, json_dumps_params={'ensure_ascii': False})
+
+def getSiseMarket(request):
+    html = requests.get('https://finance.naver.com/sise/sise_market_sum.nhn')
+
+    df_kospi_data = []
+
+    table = pd.read_html(html.text)
+    df_kospi = table[1]
+    df_kospi = df_kospi[['종목명', '현재가', '전일비', '등락률']].dropna()
+
+    print(len(df_kospi))
+    for i in range(5):
+        df_kospi_data.append([df_kospi.loc[i + 1][0], df_kospi.loc[i + 1][1], df_kospi.loc[i + 1][2], df_kospi.loc[i + 1][3]])
+        print(df_kospi_data)
+
+    return JsonResponse({
+        'kospi': df_kospi_data
+    }, json_dumps_params={'ensure_ascii': False})

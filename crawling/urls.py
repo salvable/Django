@@ -18,5 +18,6 @@ urlpatterns = [
     path('stork/sise/sise_lower', views.getSiseLower),
     # 거래량 상위
     path('stork/sise/sise_quant', views.getSiseQuant),
-
+    # 시가총액 상위
+    path('stork/sise/sise_market', views.getSiseMarket),
 ]
