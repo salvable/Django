@@ -54,7 +54,7 @@ def getStorks(request):
 
     return JsonResponse({
         'storks': data
-    })
+    }, json_dumps_params={'ensure_ascii': False})
 
 def getStorksByName(request,name):
     query = Stork.objects.filter(name__icontains=name)
