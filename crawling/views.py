@@ -8,6 +8,15 @@ import requests
 import pandas as pd
 import json
 from django.db import transaction
+from urllib.request import urlopen
+import numpy as np
+import lxml
+import requests
+import json
+import xmltodict
+import mplfinance as mpf
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def addStorks(request):
     filename = 'stork.xlsx'
@@ -191,3 +200,47 @@ def getSiseMarket(request):
     return JsonResponse({
         'kospi': df_kospi_data
     }, json_dumps_params={'ensure_ascii': False})
+
+def getStorkChart(request, name):
+
+    #쿼리로 가져오는 값은 dictionary 형식
+    query = Stork.objects.filter(name__icontains=name)
+
+    data = []
+
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    stork_id = data[0]['stork_id']
+
+    url = "https://fchart.stock.naver.com/sise.nhn?symbol=" + stork_id + "&timeframe=day&count=200&requestType=0"
+    rs = requests.get(url)
+    dt = xmltodict.parse(rs.text)
+    js = json.dumps(dt)
+    js = json.loads(js)
+
+    data = pd.json_normalize(js['protocol']['chartdata']['item'])
+    df = data['@data'].str.split('|', expand=True)
+    df.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+
+    # data handling
+    df['Open'] = pd.to_numeric(df['Open'])
+    df['High'] = pd.to_numeric(df['High'])
+    df['Low'] = pd.to_numeric(df['Low'])
+    df['Close'] = pd.to_numeric(df['Close'])
+    df['Volume'] = pd.to_numeric(df['Volume'])
+    df_final = df[['Open', 'High', 'Low', 'Close', 'Volume']]
+    df_final_time = pd.DatetimeIndex(df['Date'])
+    df_final.index = df_final_time
+
+    # Visualization
+    kwargs = dict(title="Samsung", type='candle', mav=(5, 20, 60), volume=True)
+    mc = mpf.make_marketcolors(up='red', down='blue', inherit=True)
+    style_final = mpf.make_mpf_style(marketcolors=mc)
+    mpf.plot(df_final, **kwargs, style=style_final)
+
+    plt.show()
+
+    return JsonResponse({
+        'storks': plt
+    })

@@ -20,4 +20,6 @@ urlpatterns = [
     path('stork/sise/sise_quant', views.getSiseQuant),
     # 시가총액 상위
     path('stork/sise/sise_market', views.getSiseMarket),
+    # 특정 주식 그래프 받아오기
+    path('stork/getChart/<str:name>', views.getStorkChart)
 ]
