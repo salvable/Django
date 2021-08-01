@@ -65,7 +65,7 @@ def getStorksByName(request,name):
 
     return JsonResponse({
         'storks': data
-    })
+    }, json_dumps_params={'ensure_ascii': False})
 
 def getPrice(request, name):
 
