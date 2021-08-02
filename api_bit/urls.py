@@ -4,5 +4,10 @@ from django.urls import path
 from api_bit import views
 
 urlpatterns = [
-    path('bitCoin/bittest', views.addBitcoin)
+    # 코인 종목 api로 불러와 DB에 저장
+    path('bitCoin/bittest', views.addBitcoin),
+    # 코인 리스트 불러오기
+    path('bitCoin/getBitcoinList', views.getBitcoinList),
+    # 코인 리스트 이름으로 불러오기
+    path('bitCoin/getBitcoinList/<str:name>', views.getBitcoinListByName)
 ]

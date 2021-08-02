@@ -5,6 +5,7 @@ from .models import Bitcoin
 import requests
 from django.db import transaction
 
+
 def addBitcoin(request):
     url = "https://api.upbit.com/v1/market/all"
 
@@ -26,3 +27,27 @@ def addBitcoin(request):
         return HttpResponse("ERROR")
 
     return HttpResponse("success")
+
+
+def getBitcoinList(request):
+    query = Bitcoin.objects.all()
+    data = []
+
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    return JsonResponse({
+        'bitcoin': data
+    }, json_dumps_params={'ensure_ascii': False})
+
+
+def getBitcoinListByName(request, name):
+    query = Bitcoin.objects.filter(name__icontains=name)
+    data = []
+
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    return JsonResponse({
+        'bitcoin': data
+    }, json_dumps_params={'ensure_ascii': False})
