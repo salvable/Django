@@ -46,11 +46,15 @@ def addStorks(request):
 
 def getStorks(request):
     query = Stork.objects.all()
-
     data = []
 
-    for i in range(len(query)):
-        data.append(query.values()[i])
+    if len(query) >= 50:
+        for i in range(50):
+            data.append(query.values()[i])
+
+    else:
+        for i in range(len(query)):
+            data.append(query.values()[i])
 
     return JsonResponse({
         'storks': data
@@ -58,10 +62,15 @@ def getStorks(request):
 
 def getStorksByName(request,name):
     query = Stork.objects.filter(name__icontains=name)
-
     data = []
-    for i in range(len(query)):
-        data.append(query.values()[i])
+
+    if len(query) >= 30:
+        for i in range(30):
+            data.append(query.values()[i])
+
+    else:
+        for i in range(len(query)):
+            data.append(query.values()[i])
 
     return JsonResponse({
         'storks': data
