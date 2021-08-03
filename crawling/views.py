@@ -211,11 +211,12 @@ def getSiseMarket(request):
     }, json_dumps_params={'ensure_ascii': False})
 
 def getStorkChart(request, name):
-
-    #쿼리로 가져오는 값은 dictionary 형식
-    query = Stork.objects.filter(name__icontains=name)
+    query = Stork.objects.filter(name=name)
 
     data = []
+
+    if len(query) == 0:
+        return JsonResponse({'storks': plt})
 
     for i in range(len(query)):
         data.append(query.values()[i])
@@ -242,14 +243,14 @@ def getStorkChart(request, name):
     df_final_time = pd.DatetimeIndex(df['Date'])
     df_final.index = df_final_time
 
+    print(df_final)
     # Visualization
     kwargs = dict(title="Samsung", type='candle', mav=(5, 20, 60), volume=True)
     mc = mpf.make_marketcolors(up='red', down='blue', inherit=True)
     style_final = mpf.make_mpf_style(marketcolors=mc)
-    mpf.plot(df_final, **kwargs, style=style_final)
+    mpf.plot(df_final, **kwargs, style=style_final,savefig="C:/workSpace/Django Server/Stork/chart/" + name)
 
-    plt.show()
 
     return JsonResponse({
-        'storks': plt
+        'storks': "true"
     })
