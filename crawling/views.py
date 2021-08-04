@@ -245,11 +245,10 @@ def getStorkChart(request, name):
 
     print(df_final)
     # Visualization
-    kwargs = dict(title="Samsung", type='candle', mav=(5, 20, 60), volume=True)
+    kwargs = dict(type='candle', mav=(5, 20, 60), volume=True)
     mc = mpf.make_marketcolors(up='red', down='blue', inherit=True)
     style_final = mpf.make_mpf_style(marketcolors=mc)
-    mpf.plot(df_final, **kwargs, style=style_final,savefig="C:/workSpace/Django Server/Stork/chart/" + name)
-
+    mpf.plot(df_final, **kwargs, style=style_final, savefig="C:/workSpace/web-react/web-stork/src/Stork/Chart/storkChart.png")
 
     return JsonResponse({
         'storks': "true"
