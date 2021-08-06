@@ -76,18 +76,21 @@ def getStorksByName(request,name):
         'storks': data
     }, json_dumps_params={'ensure_ascii': False})
 
-def getPrice(request, name):
+def getStorkById(request,id):
+    query = Stork.objects.filter(stork_id=id)
 
-    #쿼리로 가져오는 값은 dictionary 형식
-    query = Stork.objects.filter(name=name)
-    if len(query.values()) == 0:
-        return HttpResponse("Not Found Error")
+    # 임시 에러처리
+    if len(query) == 0:
+        return JsonResponse({
+            'error': "404code"
+        }, json_dumps_params={'ensure_ascii': False})
 
-    data = query.values()[0]
+    return JsonResponse({
+        'storks': query.values()[0]
+    }, json_dumps_params={'ensure_ascii': False})
 
-    crawling_id = data['stork_id']
-
-    url = "https://finance.naver.com/item/main.nhn?code=" + crawling_id
+def getPrice(request, id):
+    url = "https://finance.naver.com/item/main.nhn?code=" + id
     result = requests.get(url)
 
     bs_obj = BeautifulSoup(result.content, "html.parser")
@@ -110,7 +113,6 @@ def getPrice(request, name):
     high_price = high.find("span", {"class": "blind"}).text
     low = bs_obj.find("em", {"class": "no_down"})
     low_price = low.find("span", {"class": "blind"}).text
-
 
     # json_dumps_params => 한글의 깨짐 방지
     return JsonResponse({
@@ -217,20 +219,9 @@ def getSiseMarket(request):
         'kospi': df_kospi_data
     }, json_dumps_params={'ensure_ascii': False})
 
-def getStorkChart(request, name):
-    query = Stork.objects.filter(name=name)
+def getStorkChart(request, id):
 
-    data = []
-
-    if len(query) == 0:
-        return JsonResponse({'storks': plt})
-
-    for i in range(len(query)):
-        data.append(query.values()[i])
-
-    stork_id = data[0]['stork_id']
-
-    url = "https://fchart.stock.naver.com/sise.nhn?symbol=" + stork_id + "&timeframe=day&count=200&requestType=0"
+    url = "https://fchart.stock.naver.com/sise.nhn?symbol=" + id + "&timeframe=day&count=200&requestType=0"
     rs = requests.get(url)
     dt = xmltodict.parse(rs.text)
     js = json.dumps(dt)

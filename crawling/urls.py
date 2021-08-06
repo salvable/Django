@@ -10,8 +10,10 @@ urlpatterns = [
     path('getStorks/', views.getStorks),
     # 이름으로 해당되는 목록들 가져오기
     path('getStorks/<str:name>', views.getStorksByName),
+    # id로 해당 종목 가져오기
+    path('getStorksById/<str:id>', views.getStorkById),
     # 종목 이름으로 크롤링하여 가격 가져오기
-    path('stork/<str:name>', views.getPrice),
+    path('stork/<str:id>', views.getPrice),
     # 상한가 크롤링
     path('stork/sise/sise_upper', views.getSiseUpper),
     # 하한가
@@ -21,5 +23,5 @@ urlpatterns = [
     # 시가총액 상위
     path('stork/sise/sise_market', views.getSiseMarket),
     # 특정 주식 그래프 받아오기
-    path('stork/getChart/<str:name>', views.getStorkChart)
+    path('stork/getChart/<str:id>', views.getStorkChart)
 ]
