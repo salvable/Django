@@ -105,10 +105,19 @@ def getPrice(request, name):
     variance = variance_blind.text
     variance_sign = variance_span.text
 
+    # 고가, 저가 , 거래량, 거래대금
+    high = bs_obj.find("em", {"class": "no_up"})
+    high_price = high.find("span", {"class": "blind"}).text
+    low = bs_obj.find("em", {"class": "no_down"})
+    low_price = low.find("span", {"class": "blind"}).text
+
+
     # json_dumps_params => 한글의 깨짐 방지
     return JsonResponse({
         'price': now_price,
-        'variance': variance + "원 " + variance_sign
+        'variance': variance + "원 " + variance_sign,
+        'highPrice': high_price,
+        'lowPrice': low_price
     }, json_dumps_params={'ensure_ascii': False})
 
 def getSiseUpper(request):
