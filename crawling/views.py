@@ -156,8 +156,7 @@ def getSiseLower(request):
     else:
         for i in range(len(df_kospi)):
             df_kospi_data.append(
-                [df_kospi.loc[i + 1][0], df_kospi.loc[i + 1][1], df_kospi.loc[i + 1][2], df_kospi.loc[i + 1][3],
-                 df_kospi.loc[i + 1][4]])
+                [df_kospi.loc[i + 1][0], df_kospi.loc[i + 1][1], df_kospi.loc[i + 1][2], df_kospi.loc[i + 1][3]])
 
     df_kosdak = table[2]
     df_kosdak = df_kosdak[['종목명', '현재가', '전일비', '등락률']].dropna()
@@ -166,9 +165,8 @@ def getSiseLower(request):
         print("없습니다.")
     else:
         for i in range(len(df_kosdak)):
-            df_kosdak_data.append(
-                [df_kosdak.loc[i + 1][0], df_kosdak.loc[i + 1][1], df_kosdak.loc[i + 1][2], df_kosdak.loc[i + 1][3],
-                 df_kosdak.loc[i + 1][4]])
+            for i in range(len(df_kosdak)):
+                df_kosdak_data.append([df_kosdak.loc[i + 1][0], df_kosdak.loc[i + 1][1], df_kosdak.loc[i + 1][2],df_kosdak.loc[i + 1][3]])
 
     return JsonResponse({
         'kospi': df_kospi_data,
@@ -243,7 +241,6 @@ def getStorkChart(request, name):
     df_final_time = pd.DatetimeIndex(df['Date'])
     df_final.index = df_final_time
 
-    print(df_final)
     # Visualization
     kwargs = dict(type='candle', mav=(5, 20, 60), volume=True)
     mc = mpf.make_marketcolors(up='red', down='blue', inherit=True)

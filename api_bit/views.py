@@ -8,13 +8,9 @@ from django.db import transaction
 
 def addBitcoin(request):
     url = "https://api.upbit.com/v1/market/all"
-
     querystring = {"isDetails": "false"}
-
     headers = {"Accept": "application/json"}
-
     response = requests.request("GET", url, headers=headers, params=querystring)
-
     data = response.json()
 
     try:
