@@ -110,9 +110,16 @@ def getPrice(request, id):
 
     # 고가, 저가 , 거래량, 거래대금
     high = bs_obj.find("em", {"class": "no_up"})
-    high_price = high.find("span", {"class": "blind"}).text
-    low = bs_obj.find("em", {"class": "no_down"})
-    low_price = low.find("span", {"class": "blind"}).text
+
+    # 바로 저가를 찍어버려서 None으로 찍힐 경우
+    if high == None:
+        low = bs_obj.find("em", {"class": "no_down"})
+        low_price = low.find("span", {"class": "blind"}).text
+        high_price = low_price
+    else:
+        high_price = high.find("span", {"class": "blind"}).text
+        low = bs_obj.find("em", {"class": "no_down"})
+        low_price = low.find("span", {"class": "blind"}).text
 
     # json_dumps_params => 한글의 깨짐 방지
     return JsonResponse({
