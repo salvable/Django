@@ -50,6 +50,14 @@ def getBitcoinListByName(request, name):
     }, json_dumps_params={'ensure_ascii': False})
 
 def getBitcoinPrice(request, code):
+    query = Bitcoin.objects.filter(market=code)
+    data = []
+
+    for i in range(len(query)):
+        data.append(query.values()[i])
+
+    name = data[0]['name']
+
     url = "https://api.upbit.com/v1/ticker?markets=" + code
 
     headers = {"Accept": "application/json"}
@@ -58,9 +66,6 @@ def getBitcoinPrice(request, code):
 
     data = response.json()
 
-    print(data[0])
-    print(data[0]['market'])
-
     price = data[0]['trade_price']
     high_price = data[0]['high_price']
     low_price = data[0]['low_price']
@@ -68,6 +73,7 @@ def getBitcoinPrice(request, code):
     change = data[0]['change']
 
     return JsonResponse({
+        'name': name,
         'price': price,
         'high_price': high_price,
         'low_price': low_price,
