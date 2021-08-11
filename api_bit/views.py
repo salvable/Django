@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import Bitcoin
 import requests
 from django.db import transaction
+import pyupbit
 
 
 def addBitcoin(request):
@@ -46,4 +47,30 @@ def getBitcoinListByName(request, name):
 
     return JsonResponse({
         'bitcoin': data
+    }, json_dumps_params={'ensure_ascii': False})
+
+def getBitcoinPrice(request, code):
+    url = "https://api.upbit.com/v1/ticker?markets=" + code
+
+    headers = {"Accept": "application/json"}
+
+    response = requests.request("GET", url, headers=headers)
+
+    data = response.json()
+
+    print(data[0])
+    print(data[0]['market'])
+
+    price = data[0]['trade_price']
+    high_price = data[0]['high_price']
+    low_price = data[0]['low_price']
+    change_price = data[0]['change_price']
+    change = data[0]['change']
+
+    return JsonResponse({
+        'price': price,
+        'high_price': high_price,
+        'low_price': low_price,
+        'change_price': change_price,
+        'change': change
     }, json_dumps_params={'ensure_ascii': False})
