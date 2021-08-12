@@ -82,7 +82,7 @@ def getBitcoinPrice(request, code):
     }, json_dumps_params={'ensure_ascii': False})
 
 def getChart(request, code):
-    plt.rcParams["figure.figsize"] = (12, 6)
+    plt.rcParams["figure.figsize"] = (8, 4)
     plt.rcParams["axes.formatter.limits"] = -10000, 10000
 
     df = pyupbit.get_ohlcv(code)
