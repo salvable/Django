@@ -3,10 +3,7 @@
 from django.http import HttpResponse, JsonResponse
 from .models import Bitcoin
 import requests
-from django.db import transaction
 import pyupbit
-import matplotlib as mpl
-import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -89,12 +86,9 @@ def getChart(request, code):
     plt.rcParams["axes.formatter.limits"] = -10000, 10000
 
     df = pyupbit.get_ohlcv(code)
-    print(df)
 
     # 가격 차트 그리기
     df = pyupbit.get_ohlcv(code, interval='day', count=100)
-
-
     df[["close", "volume"]].plot(secondary_y=["volume"])
 
     plt.savefig("C:/workSpace/web-react/web-stork/src/Stork/Chart/coinChart.png")

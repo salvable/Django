@@ -4,19 +4,12 @@ from django.http import HttpResponse, JsonResponse
 import openpyxl
 from .models import Stork
 from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-import json
 from django.db import transaction
-from urllib.request import urlopen
-import numpy as np
-import lxml
 import requests
 import json
 import xmltodict
 import mplfinance as mpf
 import pandas as pd
-import matplotlib.pyplot as plt
 
 def addStorks(request):
     filename = 'stork.xlsx'
