@@ -11,5 +11,7 @@ urlpatterns = [
     # 코인 리스트 이름으로 불러오기
     path('bitCoin/getBitcoinList/<str:name>', views.getBitcoinListByName),
     # 코인 가격 불러오기
-    path('bitCoin/getBitcoinPrice/<str:code>', views.getBitcoinPrice)
+    path('bitCoin/getBitcoinPrice/<str:code>', views.getBitcoinPrice),
+    # 차트 그리기
+    path('bitCoin/getBitcoinChart/<str:code>', views.getChart),
 ]
