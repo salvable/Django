@@ -75,10 +75,10 @@ def getBitcoinPrice(request, code):
     return JsonResponse({
         'name': name,
         'price': price,
-        'high_price': high_price,
-        'low_price': low_price,
-        'change_price': change_price,
-        'change': change
+        'highPrice': high_price,
+        'lowPrice': low_price,
+        'variance': change_price,
+        'variance_sign': change
     }, json_dumps_params={'ensure_ascii': False})
 
 def getChart(request, code):

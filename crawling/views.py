@@ -117,7 +117,8 @@ def getPrice(request, id):
     # json_dumps_params => 한글의 깨짐 방지
     return JsonResponse({
         'price': now_price,
-        'variance': variance + "원 " + variance_sign,
+        'variance': variance + "원 ",
+        'variance_sign': variance_sign,
         'highPrice': high_price,
         'lowPrice': low_price
     }, json_dumps_params={'ensure_ascii': False})
