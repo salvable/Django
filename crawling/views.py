@@ -177,9 +177,8 @@ def getSiseLower(request):
         print("없습니다.")
     else:
         for i in range(len(df_kosdak)):
-            for i in range(len(df_kosdak)):
                 df_kosdak_data.append([df_kosdak.loc[i + 1][0], df_kosdak.loc[i + 1][1], df_kosdak.loc[i + 1][2],df_kosdak.loc[i + 1][3]])
-
+            
     return JsonResponse({
         'kospi': df_kospi_data,
         'kosdak': df_kosdak_data
