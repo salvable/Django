@@ -103,15 +103,17 @@ def getPrice(request, id):
 
     # 고가, 저가 , 거래량, 거래대금
     high = bs_obj.find("em", {"class": "no_up"})
+    low = bs_obj.find("em", {"class": "no_down"})
 
     # 바로 저가를 찍어버려서 None으로 찍힐 경우
     if high == None:
-        low = bs_obj.find("em", {"class": "no_down"})
-        low_price = low.find("span", {"class": "blind"}).text
-        high_price = low_price
+            low_price = low.find("span", {"class": "blind"}).text
+            high_price = low_price
+    elif low == None:
+        high_price = high.find("span", {"class": "blind"}).text
+        low_price = high_price
     else:
         high_price = high.find("span", {"class": "blind"}).text
-        low = bs_obj.find("em", {"class": "no_down"})
         low_price = low.find("span", {"class": "blind"}).text
 
     # json_dumps_params => 한글의 깨짐 방지
@@ -178,7 +180,7 @@ def getSiseLower(request):
     else:
         for i in range(len(df_kosdak)):
                 df_kosdak_data.append([df_kosdak.loc[i + 1][0], df_kosdak.loc[i + 1][1], df_kosdak.loc[i + 1][2],df_kosdak.loc[i + 1][3]])
-            
+
     return JsonResponse({
         'kospi': df_kospi_data,
         'kosdak': df_kosdak_data
